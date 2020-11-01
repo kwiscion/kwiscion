@@ -126,14 +126,9 @@ bake.step_earth <- function(object, new_data, ...) {
       x <- earth:::get.earth.x(object$res, data = new_data, parent.frame())
       x <- earth:::get.bx(x, which.terms, object$res$dirs, object$res$cuts)
 
-      x_new <- data.frame(row.names = 1:nrow(x))
-      for(i in object$res$namesx) {
-        x_tmp <- x[,grep(i, colnames(x))]
-        colnames(x_tmp) <- sprintf('%s_%s', object$prefix, colnames(x_tmp))
-        # colnames(x_tmp) <- sprintf('%s_%s%d', i, object$prefix, seq_len(ncol(x_tmp)))
+      x_new <- x[,-1]
+      colnames(x_new) <- sprintf('%s_%s', object$prefix, colnames(x_new))
 
-        x_new <- cbind(x_new, x_tmp)
-      }
       new_data <- dplyr::bind_cols(new_data, tibble::as_tibble(x_new))
       if(object$drop) {
         new_data <-

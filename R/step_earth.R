@@ -125,6 +125,7 @@ bake.step_earth <- function(object, new_data, ...) {
     if(length(which.terms) > 1){
       x <- earth:::get.earth.x(object$res, data = new_data, parent.frame())
       x <- earth:::get.bx(x, which.terms, object$res$dirs, object$res$cuts)
+      x <- as.data.frame(x)
 
       x_new <- x[,-1]
       colnames(x_new) <- sprintf('%s_%s', object$prefix, colnames(x_new))
